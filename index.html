@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    <title>WebGL - Hierarchical Modeling</title>
+    <link rel="shortcut icon" href="kova-favicon.ico" type="image/x-icon">
+</head>
+<script type="text/javascript" src="./Common/webgl-utils.js"></script>
+<script type="text/javascript" src="./Common/initShaders.js"></script>
+<script type="text/javascript" src="./Common/MV.js"></script>
+
+<script id="vertex-shader-3d" type="x-shader/x-vertex">
+    attribute vec4 a_position;
+    attribute vec2 a_texcoord;
+    
+    uniform mat4 u_matrix;
+    
+    varying vec2 v_texcoord;
+    
+    void main() {
+      // Multiply the position by the matrix.
+      gl_Position = u_matrix * a_position;
+    
+      // Pass the texcoord to the fragment shader.
+      v_texcoord = a_texcoord;
+    }
+</script>
+
+<script id="fragment-shader-3d" type="x-shader/x-fragment">
+    precision mediump float;
+
+    // Passed in from the vertex shader.
+    varying vec2 v_texcoord;
+    
+    // The texture.
+    uniform sampler2D u_texture;
+    
+    void main() {
+       gl_FragColor = texture2D(u_texture, v_texcoord);
+    }
+
+</script>
+
+<script id="vertex-shader-flat-color" type="x-shader/x-vertex">
+    attribute vec4 a_position;
+
+    uniform mat4 u_matrix;
+    
+    void main() {
+      // Multiply the position by the matrix.
+      gl_Position = u_matrix * a_position;
+    }
+</script>
+
+<script id="fragment-shader-flat-color" type="x-shader/x-fragment">
+    precision mediump float;
+
+    uniform vec4 u_color;
+    
+    void main() {
+       gl_FragColor = u_color;
+    }
+
+</script>
+
+<script id="vertex-shader-flat" type="x-shader/x-vertex">
+    attribute vec4 a_position;
+    attribute vec4 a_color;
+    uniform mat4 u_matrix;
+
+    varying vec4 v_color;
+    void main() {
+      // Multiply the position by the matrix.
+      gl_Position = u_matrix * a_position;
+
+      // Copy the color from the attribute to the varying.
+      v_color = a_color;
+    }
+</script>
+
+<script id="fragment-shader-flat" type="x-shader/x-fragment">
+    precision mediump float;
+
+    // Passed in from the vertex shader.
+    varying vec4 v_color;
+    void main() {
+       gl_FragColor = v_color;
+    }
+
+</script>
+
+<body style="background-color: #c9c3db;">
+    
+    <canvas id="gl-canvas" width="800" height="600">
+        Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+    
+    <script type="text/javascript" src="app.js"></script>
+    <button type="button" id="wiremode">Wireframe</button>
+    <button type="button" id="polymode">Polygon</button>
+
+
+
+</body>
+
+
+<script>
+</script>
+</html>
